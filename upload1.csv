@@ -1,0 +1,16 @@
+date,position,song,artist,popularity,duration_ms,album_type,total_tracks,is_explicit,album_cover_url
+2026-01-01,1,Flowers,Miley Cyrus,95,200000,Single,1,False,https://i.imgur.com/flower.jpg
+2026-01-01,2,As It Was,Harry Styles,92,174000,Single,1,False,https://i.imgur.com/asitwas.jpg
+2026-01-01,3,Unholy,Sam Smith,89,156000,Single,1,True,https://i.imgur.com/unholy.jpg
+2026-01-01,4,Calm Down,Rema,87,239000,Album,16,False,https://i.imgur.com/calmdown.jpg
+2026-01-01,5,Shivers,Ed Sheeran,90,207000,Single,1,False,https://i.imgur.com/shivers.jpg
+2026-01-02,1,Flowers,Miley Cyrus,96,200000,Single,1,False,https://i.imgur.com/flower.jpg
+2026-01-02,2,As It Was,Harry Styles,91,174000,Single,1,False,https://i.imgur.com/asitwas.jpg
+2026-01-02,3,Unholy,Sam Smith,90,156000,Single,1,True,https://i.imgur.com/unholy.jpg
+2026-01-02,4,Calm Down,Rema,88,239000,Album,16,False,https://i.imgur.com/calmdown.jpg
+2026-01-02,5,Shivers,Ed Sheeran,89,207000,Single,1,False,https://i.imgur.com/shivers.jpg
+2026-01-03,1,Flowers,Miley Cyrus,97,200000,Single,1,False,https://i.imgur.com/flower.jpg
+2026-01-03,2,As It Was,Harry Styles,93,174000,Single,1,False,https://i.imgur.com/asitwas.jpg
+2026-01-03,3,Unholy,Sam Smith,91,156000,Single,1,True,https://i.imgur.com/unholy.jpg
+2026-01-03,4,Calm Down,Rema,89,239000,Album,16,False,https://i.imgur.com/calmdown.jpg
+2026-01-03,5,Shivers,Ed Sheeran,88,207000,Single,1,False,https://i.imgur.com/shivers.jpg
