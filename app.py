@@ -5,7 +5,7 @@ import streamlit as st
 # PAGE CONFIG
 # =========================
 st.set_page_config(page_title="Top 50 Playlist Dashboard", layout="wide")
-st.title("🎵 Top 50 Playlist Analytics (No Plotly Version)")
+st.title(" Playlist Rotation Analysis  ")
 
 # =========================
 # LOAD DATA
