@@ -15,7 +15,7 @@ st.set_page_config(page_title="Top 50 Playlist Dashboard", layout="wide")
 st.title("🎵 Top 50 Playlist Analytics")
 
 if not PLOTLY_AVAILABLE:
-    st.error("Plotly is not installed. Add 'plotly' to requirements.txt or run: pip install plotly")
+    st.error("Plotly is not installed. Add 'plotly' to upload1.txt or run: pip install plotly")
     st.stop()
 
 # =========================
