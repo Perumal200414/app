@@ -1,12 +1,11 @@
 import pandas as pd
 import streamlit as st
-import plotly.express as px
 
 # =========================
 # PAGE CONFIG
 # =========================
 st.set_page_config(page_title="Top 50 Playlist Dashboard", layout="wide")
-st.title("🎵 Top 50 Playlist Analytics")
+st.title("🎵 Top 50 Playlist Analytics (No Plotly Version)")
 
 # =========================
 # LOAD DATA
@@ -26,7 +25,6 @@ def load_data(file):
         st.error(f"Missing columns: {missing}")
         return None
 
-    # Cleaning
     df['date'] = pd.to_datetime(df['date'], errors='coerce')
     df = df.dropna(subset=['date'])
 
@@ -39,7 +37,7 @@ def load_data(file):
 
 
 # =========================
-# FILE UPLOAD
+# UPLOAD FILE
 # =========================
 file = st.file_uploader("Upload your CSV file", type=["csv"])
 
@@ -53,7 +51,6 @@ if file:
     # =========================
     st.sidebar.header("Filters")
 
-    # Date filter
     min_date, max_date = df['date'].min(), df['date'].max()
     date_range = st.sidebar.date_input("Date Range", [min_date, max_date])
 
@@ -62,16 +59,14 @@ if file:
         (df['date'] <= pd.to_datetime(date_range[1]))
     ]
 
-    # Artist filter
     artists = st.sidebar.multiselect("Select Artist", df['artist'].unique())
     if artists:
         df = df[df['artist'].isin(artists)]
 
-    # Song selector
     selected_song = st.sidebar.selectbox("Select Song", df['song_id'].unique())
 
     # =========================
-    # KPIs
+    # KPI
     # =========================
     st.subheader("Overview")
 
@@ -101,15 +96,13 @@ if file:
         summary['days'] * 0.2
     )
 
-    summary = summary.sort_values('score', ascending=False)
-
     top_n = st.slider("Top N Songs", 5, 50, 10)
-    st.dataframe(summary.head(top_n))
+    st.dataframe(summary.sort_values('score', ascending=False).head(top_n))
 
     st.divider()
 
     # =========================
-    # SONG ANALYSIS
+    # SONG ANALYSIS (TABLE + SIMPLE CHARTS)
     # =========================
     st.subheader("Song Analysis")
 
@@ -122,15 +115,15 @@ if file:
         with col1:
             st.image(song_df['album_cover_url'].iloc[0], caption=selected_song)
 
-        with col2:
-            fig1 = px.line(song_df, x='date', y='position',
-                           title="Chart Position")
-            fig1.update_yaxes(autorange="reversed")
-            st.plotly_chart(fig1, use_container_width=True)
+            st.write("### Data Table")
+            st.dataframe(song_df[['date','position','popularity']])
 
-        fig2 = px.line(song_df, x='date', y='popularity',
-                       title="Popularity Trend")
-        st.plotly_chart(fig2, use_container_width=True)
+        with col2:
+            st.write("### Position Trend (Line)")
+            st.line_chart(song_df.set_index('date')['position'])
+
+            st.write("### Popularity Trend (Line)")
+            st.line_chart(song_df.set_index('date')['popularity'])
 
         st.write("**Best Rank:**", song_df['position'].min())
         st.write("**Days on Chart:**", song_df['date'].nunique())
@@ -146,16 +139,13 @@ if file:
     col1, col2 = st.columns(2)
 
     with col1:
-        fig3 = px.histogram(df, x='popularity', nbins=20,
-                            title="Popularity Distribution")
-        st.plotly_chart(fig3, use_container_width=True)
+        st.write("### Popularity Distribution")
+        st.bar_chart(df['popularity'].value_counts().sort_index())
 
     with col2:
-        explicit_df = df.groupby('is_explicit')['song_id'].nunique().reset_index()
-
-        fig4 = px.bar(explicit_df, x='is_explicit', y='song_id',
-                      title="Explicit vs Clean Songs")
-        st.plotly_chart(fig4, use_container_width=True)
+        explicit_df = df.groupby('is_explicit')['song_id'].nunique()
+        st.write("### Explicit vs Clean Songs")
+        st.bar_chart(explicit_df)
 
     st.divider()
 
@@ -164,12 +154,8 @@ if file:
     # =========================
     st.subheader("Chart Trends")
 
-    fig5 = px.line(df, x='date', y='position',
-                   color='song_id',
-                   title="Song Ranking Over Time")
-
-    fig5.update_yaxes(autorange="reversed")
-    st.plotly_chart(fig5, use_container_width=True)
+    trend = df.groupby(['date'])['position'].mean()
+    st.line_chart(trend)
 
 else:
     st.info("Upload your CSV file to begin")
